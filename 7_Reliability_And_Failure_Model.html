@@ -47,9 +47,15 @@
   .hero {
     background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 50%, #eef4ff 100%);
     border-bottom: 1px solid #e2e8f0;
-    padding: 56px 48px 48px;
     position: relative;
     overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 56px 48px 48px;
+    position: relative;
+    z-index: 1;
   }
   .hero::before {
     content: '';
@@ -103,7 +109,7 @@
 
   /* ── LAYOUT ── */
   .container {
-    max-width: 960px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 48px 80px;
   }
@@ -143,6 +149,8 @@
     font-size: 14px;
     margin-top: 6px;
     line-height: 1.65;
+    max-width: 840px;
+    word-break: keep-all;
   }
 
   /* ── CALLOUT ── */
@@ -175,6 +183,8 @@
   /* ── TABLES ── */
   .tbl-wrap {
     overflow-x: auto;
+    overflow-y: auto;
+    max-height: 600px;
     margin: 24px 0;
     border-radius: 10px;
     border: 1px solid #e2e8f0;
@@ -198,18 +208,27 @@
     text-align: left;
     border-bottom: 1px solid var(--border);
     white-space: nowrap;
+    resize: horizontal;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #f1f5f9;
   }
   tbody tr {
     border-bottom: 1px solid #e2e8f0;
     transition: background 0.15s;
+    background: #ffffff;
   }
+  tbody tr:nth-child(even) { background: #f8fafc; }
   tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: rgba(37,99,235,0.04); }
+  tbody tr:hover { background: rgba(37,99,235,0.06); }
   tbody td {
     padding: 12px 16px;
     vertical-align: top;
     color: var(--text);
     line-height: 1.6;
+    word-break: keep-all;
   }
   td code, th code {
     font-family: var(--mono);
@@ -607,7 +626,7 @@
   em { color: #0ea5e9; font-style: normal; font-family: var(--mono); font-size: 0.92em; }
   p { margin-bottom: 14px; }
   p:last-child { margin-bottom: 0; }
-  .text { font-size: 14.5px; color: var(--text2); line-height: 1.75; }
+  .text { font-size: 14.5px; color: var(--text2); line-height: 1.75; max-width: 840px; word-break: keep-all; }
 
   /* toc */
   .toc {
@@ -639,7 +658,7 @@
   .toc-n { font-family: var(--mono); font-size: 11px; color: #94a3b8; }
 
   @media (max-width: 640px) {
-    .hero { padding: 36px 24px 32px; }
+    .hero-inner { padding: 36px 24px 32px; }
     .container { padding: 0 24px 60px; }
     .compare-grid { grid-template-columns: 1fr; }
     .xid-grid { grid-template-columns: 1fr; }
@@ -652,26 +671,28 @@
 
 <!-- ══════════════ HERO ══════════════ -->
 <div class="hero">
-  <div class="hero-tag">AIDC / GPU INFRA STUDY</div>
-  <h1>GPU Farm Reliability<br>&amp; Failure Model<br>운영 설계 가이드</h1>
-  <p class="hero-sub">
-    대규모 GPU 클러스터 환경에서 하드웨어 및 소프트웨어 장애를 예외가 아닌
-    시스템의 <strong>일상적인 부분(Normal State)</strong>으로 가정하고,
-    이에 대응하는 아키텍처 및 자동화 복구 파이프라인을 정리한 문서입니다.
-  </p>
-  <div class="hero-meta">
-    <div class="meta-pill">📅 <span>2025</span></div>
-    <div class="meta-pill">🏷 <span>Infrastructure / SRE / MLOps</span></div>
-    <div class="meta-pill">⚙️ <span>Kubernetes · DCGM · NVIDIA XID · Gang Scheduling</span></div>
-  </div>
-  <div class="toc" style="max-width:600px;">
-    <div class="toc-title">목 차</div>
-    <a href="#sec1"><span class="toc-n">01</span> GPU 장애의 "정상 상태(Normal State)" 이해</a>
-    <a href="#sec2"><span class="toc-n">02</span> NVIDIA XID Error 유형 및 원인 분석</a>
-    <a href="#sec3"><span class="toc-n">03</span> Partial Failure 대응 및 복구 판단</a>
-    <a href="#sec4"><span class="toc-n">04</span> 통합 자동 복구 파이프라인 아키텍처</a>
-    <a href="#sec5"><span class="toc-n">05</span> GPU Failure 대응 시나리오 (Runbook)</a>
-    <a href="#sec6"><span class="toc-n">06</span> 장애 등급 정의서</a>
+  <div class="hero-inner">
+    <div class="hero-tag">AIDC / GPU INFRA STUDY</div>
+    <h1>GPU Farm Reliability<br>&amp; Failure Model<br>운영 설계 가이드</h1>
+    <p class="hero-sub">
+      대규모 GPU 클러스터 환경에서 하드웨어 및 소프트웨어 장애를 예외가 아닌
+      시스템의 <strong>일상적인 부분(Normal State)</strong>으로 가정하고,
+      이에 대응하는 아키텍처 및 자동화 복구 파이프라인을 정리한 문서입니다.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-pill">📅 <span>2025</span></div>
+      <div class="meta-pill">🏷 <span>Infrastructure / SRE / MLOps</span></div>
+      <div class="meta-pill">⚙️ <span>Kubernetes · DCGM · NVIDIA XID · Gang Scheduling</span></div>
+    </div>
+    <div class="toc" style="max-width:600px;">
+      <div class="toc-title">목 차</div>
+      <a href="#sec1"><span class="toc-n">01</span> GPU 장애의 "정상 상태(Normal State)" 이해</a>
+      <a href="#sec2"><span class="toc-n">02</span> NVIDIA XID Error 유형 및 원인 분석</a>
+      <a href="#sec3"><span class="toc-n">03</span> Partial Failure 대응 및 복구 판단</a>
+      <a href="#sec4"><span class="toc-n">04</span> 통합 자동 복구 파이프라인 아키텍처</a>
+      <a href="#sec5"><span class="toc-n">05</span> GPU Failure 대응 시나리오 (Runbook)</a>
+      <a href="#sec6"><span class="toc-n">06</span> 장애 등급 정의서</a>
+    </div>
   </div>
 </div>
 
@@ -944,19 +965,19 @@
           <td><span class="badge green">✓ 자동</span></td>
         </tr>
         <tr>
-          <td><strong>소프트 커널 오류</strong></td>
+          <td><strong>메모리 페이지 폴트</strong></td>
           <td><code>XID 31</code></td>
           <td><span class="badge soft">Soft</span></td>
-          <td>GPU 파이버 스케줄링 오류, 드라이버 내부 타임아웃</td>
-          <td>해당 컨텍스트 크래시</td>
-          <td>파드 재시작, 드라이버 재로드 고려</td>
+          <td>잘못된 메모리 접근으로 인한 MMU(Memory Management Unit) 에러</td>
+          <td>해당 프로세스 크래시</td>
+          <td>파드 재시작, 애플리케이션 코드 버그 점검</td>
           <td><span class="badge green">✓ 자동</span></td>
         </tr>
         <tr>
-          <td><strong>GPU 응답 없음</strong></td>
-          <td><code>XID 43</code></td>
+          <td><strong>컨텍스트/실행 타임아웃</strong></td>
+          <td><code>XID 43/109</code></td>
           <td><span class="badge soft">Soft</span></td>
-          <td>무한 루프, Deadlock, 커널 실행 타임아웃 (>2min)</td>
+          <td>무한 루프, 사용자 앱 오류(43) 또는 Context Switch Timeout(109)</td>
           <td>작업 블로킹, 노드 부분 응답 불능</td>
           <td>파드 재시작 후 노드 헬스 재확인</td>
           <td><span class="badge green">✓ 자동</span></td>
@@ -980,22 +1001,22 @@
           <td><span class="badge warn">⚠ 반자동</span></td>
         </tr>
         <tr>
-          <td><strong>NVLink 패킷 손상</strong></td>
-          <td><code>XID 119</code></td>
+          <td><strong>NVLink 오류</strong></td>
+          <td><code>XID 74</code></td>
           <td><span class="badge warn">Warning</span></td>
-          <td>NVLink 물리 인터커넥트 오류, 패킷 체크섬 불일치 (과열, 접촉 불량)</td>
-          <td>GPU 간 통신 성능 저하 또는 중단</td>
-          <td>재시작 시도 → 지속 시 노드 교체</td>
-          <td><span class="badge green">✓ 자동</span></td>
+          <td>NVLink 물리 인터커넥트 오류, 패킷/링크 에러 (과열, 접촉 불량)</td>
+          <td>GPU 간 통신 성능 저하 또는 멀티 GPU 학습 중단</td>
+          <td>해당 GPU 격리 → 물리적 케이블 점검</td>
+          <td><span class="badge warn">⚠ 반자동</span></td>
         </tr>
         <tr>
-          <td><strong>NVLink 링크 단절</strong></td>
-          <td><code>XID 120</code></td>
-          <td><span class="badge warn">Warning</span></td>
-          <td>NVLink 링크 완전 단절, 119 이후 악화 단계</td>
-          <td>멀티 GPU 학습 불가</td>
-          <td>해당 GPU 격리 → 팬아웃 재구성</td>
-          <td><span class="badge green">✓ 자동</span></td>
+          <td><strong>GSP 코어 / RPC 에러</strong></td>
+          <td><code>XID 119/120</code></td>
+          <td><span class="badge hard">Hard</span></td>
+          <td>GPU System Processor(GSP) 타임아웃(119) 또는 코어 크래시(120)</td>
+          <td>GPU 드라이버 초기화 및 제어 불가</td>
+          <td>노드 재부팅 시도 → 지속 시 GSP 펌웨어 비활성화 설정</td>
+          <td><span class="badge warn">⚠ 반자동</span></td>
         </tr>
         <tr>
           <td><strong>ECC 격리 성공</strong></td>
@@ -1042,24 +1063,25 @@
       <div class="xid-action">노드 Taint + 스케줄링 배제 → VRAM 교체</div>
     </div>
     <div class="xid-card warn">
-      <div class="xid-num">43</div>
-      <div class="xid-name">GPU Preemption Context Switch Timeout</div>
+      <div class="xid-num">109</div>
+      <div class="xid-name">GPU Context Switch Timeout</div>
       <div class="xid-desc">
-        GPU 커널이 2분(기본값) 이상 CPU로 제어권을 반환하지 않을 때 발생합니다.
-        무한 루프, Deadlock, 또는 지나치게 긴 커널 실행이 원인입니다.
-        재시작 후 재발 시 소프트웨어 코드 문제일 가능성이 높습니다.
+        GPU 컨텍스트 스위칭이 지정된 시간을 초과할 때(XID 109) 발생합니다.
+        무거운 연산, 드라이버 문제 등이 원인이며, 유사하게 XID 43(사용자 앱 유도 GPU 중단)도
+        소프트웨어 문제로 인해 GPU 프로세싱이 멈추는 현상입니다.
       </div>
-      <div class="xid-action">프로세스/파드 재시작 → 재발 시 코드 검토</div>
+      <div class="xid-action">프로세스/파드 재시작 → 재발 시 디버깅</div>
     </div>
     <div class="xid-card warn">
-      <div class="xid-num">119/120</div>
+      <div class="xid-num">74</div>
       <div class="xid-name">NVLink Error / Link Down</div>
       <div class="xid-desc">
-        119는 NVLink 패킷 레벨 오류(CRC 불일치), 120은 링크 완전 단절입니다.
+        NVLink 인터커넥트의 패킷 오류 및 통신 불가 상태를 나타냅니다.
         멀티 GPU 학습(DDP, Tensor Parallel)에서 All-Reduce 통신이 이 링크를 거치므로
-        발생 시 전체 학습 Job이 블로킹됩니다. 열 관리 및 케이블 점검이 우선입니다.
+        발생 시 전체 학습 Job이 블로킹됩니다. 열 관리 및 물리적 케이블 점검이 필수적입니다.
+        (XID 119/120은 GSP 펌웨어 에러로, 이와는 다른 별도 조치가 필요합니다.)
       </div>
-      <div class="xid-action">재시작 → 지속 시 해당 GPU 격리 → 점검</div>
+      <div class="xid-action">재시작 → 지속 시 해당 GPU 격리 → H/W 점검</div>
     </div>
     <div class="xid-card info">
       <div class="xid-num">94</div>
@@ -1813,21 +1835,21 @@ kubectl drain &lt;node&gt; --ignore-daemonsets --delete-emptydir-data</div>
     </div>
     <div class="scenario-body">
       <div class="scenario-trigger">
-        <strong>트리거 조건:</strong> XID 119 (NVLink 패킷 CRC 오류) / XID 120 (NVLink 링크 완전 단절) — 멀티 GPU 텐서 통신 불가
+        <strong>트리거 조건:</strong> XID 74 (NVLink 인터커넥트 오류) 등 NVLink 통신 이상 — 멀티 GPU 텐서 통신 불가
       </div>
       <div class="runbook-steps">
         <div class="runbook-step step-auto">
           <div class="step-num">1</div>
           <div class="step-body">
             <div class="step-label">🤖 자동 — NVLink 오류 카운터 모니터링</div>
-            <div class="step-desc">DCGM이 <code>DCGM_FI_DEV_NVLINK_BANDWIDTH_TOTAL</code> 급락 및 XID 119/120을 감지합니다. 단발성 XID 119는 노이즈일 수 있으므로 <strong>5분 이내 3회 이상</strong> 반복 시에만 알림을 발생시킵니다.</div>
+            <div class="step-desc">DCGM이 <code>DCGM_FI_DEV_NVLINK_BANDWIDTH_TOTAL</code> 급락 및 XID 74를 감지합니다. 단발성 패킷 오류는 노이즈일 수 있으므로 <strong>5분 이내 3회 이상</strong> 반복 시에만 알림을 발생시킵니다.</div>
           </div>
         </div>
         <div class="runbook-step step-auto">
           <div class="step-num">2</div>
           <div class="step-body">
             <div class="step-label">🤖 자동 — NVLink 리셋 시도</div>
-            <div class="step-desc">드라이버 수준 NVLink 리셋을 시도합니다. XID 119(패킷 오류)는 드라이버 재로드로 복구되는 경우가 있습니다. XID 120(링크 단절)은 물리 점검이 필요합니다.</div>
+            <div class="step-desc">드라이버 수준 NVLink 리셋을 시도합니다. 일시적인 NVLink 패킷 오류는 드라이버 재로드로 복구되는 경우가 있습니다. 링크 완전 단절은 물리 점검이 필요합니다.</div>
             <div class="step-cmd"># NVLink 상태 확인
 nvidia-smi nvlink --status -i &lt;gpu_id&gt;
 nvidia-smi nvlink --errorcounters -i &lt;gpu_id&gt;</div>
@@ -1846,18 +1868,18 @@ query: max_over_time(DCGM_FI_DEV_GPU_TEMP{instance="&lt;node&gt;"}[1h])</div>
       <div class="scenario-cols">
         <div class="sc-col">
           <div class="sc-col-title">✅ 자동 복구 가능한 경우</div>
-          <div style="font-size:13px;color:#475569;line-height:1.6;">XID 119 단발성 발생 → NVLink 리셋으로 해소<br>과열로 인한 일시적 오류 → 냉각 후 자동 복구<br>재시작 후 24시간 내 재발 없음</div>
+          <div style="font-size:13px;color:#475569;line-height:1.6;">단발성 패킷 오류 발생 → NVLink 리셋으로 해소<br>과열로 인한 일시적 오류 → 냉각 후 자동 복구<br>재시작 후 24시간 내 재발 없음</div>
         </div>
         <div class="sc-col">
           <div class="sc-col-title">⚠️ 물리 교체가 필요한 경우</div>
-          <div style="font-size:13px;color:#475569;line-height:1.6;">XID 120 (링크 완전 단절) 발생<br>NVLink 오류 카운터가 지속 증가<br>재시작 후에도 즉시 재발</div>
+          <div style="font-size:13px;color:#475569;line-height:1.6;">심각한 XID 74 지속 발생 (링크 단절)<br>NVLink 오류 카운터가 지속 증가<br>재시작 후에도 즉시 재발</div>
         </div>
       </div>
     </div>
     <div class="scenario-footer">
-      <div class="sf-item">관련 XID: <span>119, 120</span></div>
+      <div class="sf-item">관련 XID: <span>74 등 NVLink 관련 코드</span></div>
       <div class="sf-item">노드 영향: <span>멀티 GPU 작업 중단, 단일 GPU 작업은 영향 없음</span></div>
-      <div class="sf-item">에스컬레이션: <span>XID 120 지속 → 하드웨어 케이블/GPU 교체</span></div>
+      <div class="sf-item">에스컬레이션: <span>NVLink 장애 지속 → 하드웨어 케이블/GPU 교체</span></div>
     </div>
   </div>
 
@@ -2158,7 +2180,7 @@ kubectl get nodes -l rack=rack-07 | awk 'NR>1{print $1}' | \
           <td><span class="badge warn">SEV 2</span></td>
         </tr>
         <tr>
-          <td><code>XID 119</code></td><td>NVLink Packet Error</td>
+          <td><code>XID 74</code></td><td>NVLink Error</td>
           <td><span class="badge soft">SEV 4</span></td>
           <td><span class="badge info">SEV 3</span></td>
           <td><span class="badge warn">SEV 2</span></td>
